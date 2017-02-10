@@ -51,10 +51,20 @@ var Context = (function(){
 			here.forContext.drawImage(here.money, 250, 200);
 		}
 
+		this.customer_select = new Image();
+		this.customer_select.src = ("./assets/customer_select.png");
+		this.register_select = new Image();
+		this.register_select.src = ("./assets/register_select.png");
+		this.exit_select = new Image();
+		this.exit_select.src = ("./assets/exit_select.png");
+
 		this.menuImage = new Image();
 		this.menuImage.src = ("./assets/menutemplate.png");
 		this.createMenu = function(type, image, x, y){			
-			type.drawImage(image, x, y)
+			type.drawImage(image, x, y);
+			type.drawImage(this.customer_select, x+50, y+50);
+			type.drawImage(this.register_select, x+50, y+100);
+			type.drawImage(this.exit_select, x+150, y+50);
 		}
 
 		this.removeImage = function(context, x, y, w, h){
