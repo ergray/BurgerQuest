@@ -1,70 +1,82 @@
-var Game = {}
-Game.map = [
-	[1,1,1,1,1,1,1,1,1,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,2,0,0,0,1],
-	[1,1,1,1,1,1,1,1,1,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,1,1,1,1,1,1,1,1,1]
-]
+var Game = (function(){
 
-Game.checkMap = function(y, x){
-	return Game.map[y][x]
-}
+	var Game = function(){
+		this.inMenu = false;
+		this.context;
 
-Game.interact = function(e){
-	var foreground = document.getElementById("foreground");
-	var forContext = foreground.getContext("2d");
-	var mapCoords = Game.map[Game.hero.yPOS/50][Game.hero.xPOS/50];
-	//console.log(mapCoords);
-	if (mapCoords == 2){
-		var menu = new Image();
-		menu.src = "./assets/menutemplate.png";
-		menu.onload = function(){
-		forContext.drawImage(menu, 100, 150);
+		this.map = [
+			[1,1,1,1,1,1,1,1,1,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,2,0,0,0,1],
+			[1,1,1,1,1,1,1,1,1,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,0,0,0,0,1],
+			[1,1,1,1,1,1,1,1,1,1]
+		]
+
+		this.hero = {
+			oldX: 100,
+			olxY: 100,
+			xPOS: 100,
+			yPOS: 100,
+		}		
+
+		this.checkMap = function(y, x){
+			return this.map[y][x]
 		}
-		console.log("Money in register is " + Game.Register.money + " dollars!");
-	} else {
-		console.log("Nothing to interact with");
+
+		this.menu = {
+
+			//object for functions called by interact
+			//step 1: create method to check register funds
+		}
+
+		this.interact = function(e, context){
+			var mapCoords = this.map[this.hero.yPOS/50][this.hero.xPOS/50];
+
+			if (mapCoords == 2){
+				this.context.createMenu(this.context.menuContext, this.context.menuImage, 100, 150);
+				this.inMenu = true;
+			} else {
+				console.log("Nothing to interact with");
+			}
+		}
+
+		this.exitMenu = function(){
+			this.context.removeImage(this.context.menuContext, 100, 150, 300, 200);
+			this.inMenu = false;
+		}
+
+
+
+		this.repos = function(e, object){
+			this.hero.oldX = this.hero.xPOS;
+			this.hero.oldY = this.hero.yPOS;
+			if (e.keyCode == 87){
+				if (this.checkMap(Math.floor((this.hero.yPOS-50)/50), Math.floor((this.hero.xPOS)/50)) != 1)
+				this.hero.yPOS -= 50;
+			} else if (e.keyCode == 83){
+				if (this.checkMap(Math.ceil((this.hero.yPOS+50)/50), Math.floor((this.hero.xPOS)/50)) != 1)
+				this.hero.yPOS += 50;	
+			} if (e.keyCode == 65){
+				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.floor((this.hero.xPOS-50)/50)) != 1)
+				this.hero.xPOS -= 50;			
+			} if (e.keyCode == 68){
+				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.ceil((this.hero.xPOS+50)/50)) != 1)
+				this.hero.xPOS += 50;	
+			}
+			this.context.removeImage(this.context.forContext, this.hero.oldX, this.hero.oldY, 50, 50);
+			this.context.createWorker()
+		}
+
+		this.Register = {
+			money: 0
+		}
+			
 	}
-}
-
-Game.hero = {
-	oldX: 100,
-	olxY: 100,
-	xPOS: 100,
-	yPOS: 100,
-	mapArrayX: 1,
-	mapArrayY: 1
-}
-
-Game.repos = function(e, object){
-	var foreground = document.getElementById("foreground");
-	var forContext = foreground.getContext("2d");
-	Game.hero.oldX = Game.hero.xPOS;
-	Game.hero.oldY = Game.hero.yPOS;
-	if (e.keyCode == 87){
-		if (Game.checkMap(Math.floor((Game.hero.yPOS-50)/50), Math.floor((Game.hero.xPOS)/50)) != 1)
-		Game.hero.yPOS -= 50;
-	} else if (e.keyCode == 83){
-		if (Game.checkMap(Math.ceil((Game.hero.yPOS+50)/50), Math.floor((Game.hero.xPOS)/50)) != 1)
-		Game.hero.yPOS += 50;	
-	} if (e.keyCode == 65){
-		if (Game.checkMap(Math.floor((Game.hero.yPOS)/50), Math.floor((Game.hero.xPOS-50)/50)) != 1)
-		Game.hero.xPOS -= 50;			
-	} if (e.keyCode == 68){
-		if (Game.checkMap(Math.floor((Game.hero.yPOS)/50), Math.ceil((Game.hero.xPOS+50)/50)) != 1)
-		Game.hero.xPOS += 50;	
-	}
-	forContext.clearRect(Game.hero.oldX, Game.hero.oldY, 50, 50);
-	forContext.drawImage(object, Game.hero.xPOS, Game.hero.yPOS); 
-}
-
-Game.Register = {
-	money: 0
-}
+	return Game
+})()
