@@ -1,4 +1,5 @@
 var Game = {}
+Game.inMenu = false;
 Game.map = [
 	[1,1,1,1,1,1,1,1,1,1],
 	[1,0,0,0,0,0,0,0,0,1],
@@ -18,20 +19,28 @@ Game.checkMap = function(y, x){
 }
 
 Game.interact = function(e){
-	var foreground = document.getElementById("foreground");
-	var forContext = foreground.getContext("2d");
+	var menuPlace = document.getElementById("menuPlace");
+	var menuContext = menuPlace.getContext("2d");
 	var mapCoords = Game.map[Game.hero.yPOS/50][Game.hero.xPOS/50];
 	//console.log(mapCoords);
 	if (mapCoords == 2){
 		var menu = new Image();
+		Game.inMenu = true;
 		menu.src = "./assets/menutemplate.png";
 		menu.onload = function(){
-		forContext.drawImage(menu, 100, 150);
+		menuContext.drawImage(menu, 100, 150);
 		}
 		console.log("Money in register is " + Game.Register.money + " dollars!");
 	} else {
 		console.log("Nothing to interact with");
 	}
+}
+
+Game.exitMenu = function(){
+	var menuPlace = document.getElementById("menuPlace");
+	var menuContext = menuPlace.getContext("2d");
+	menuContext.clearRect(100, 150, 300, 200);
+	Game.inMenu = false;
 }
 
 Game.hero = {

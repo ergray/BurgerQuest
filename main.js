@@ -1,4 +1,5 @@
 window.onload = function(){
+	var thisGame = Game;
 	var foreground = document.getElementById("foreground");
 	var forContext = foreground.getContext("2d");
 	var background = document.getElementById("background");
@@ -45,9 +46,19 @@ window.onload = function(){
 
 
 	window.addEventListener('keydown', function(e){
-		if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
-			Game.repos(e, worker)
-		} else if (e.keyCode == 32){
-			Game.interact(e);
-		}}, true)
+		if (Game.inMenu == false){
+			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
+				Game.repos(e, worker)
+			} else if (e.keyCode == 32){
+				Game.interact(e);
+			}} else if (Game.inMenu == true){
+				if (e.keyCode == 27){
+					Game.exitMenu();
+				}
+			}
+
+
+
+		}, true)
+
 }
