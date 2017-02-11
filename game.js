@@ -3,6 +3,8 @@ var Game = (function(){
 	var Game = function(){
 		this.inMenu = false;
 		this.context;
+		this.selected;
+		this.newSelection;
 
 		this.map = [
 			[1,1,1,1,1,1,1,1,1,1],
@@ -14,9 +16,14 @@ var Game = (function(){
 			[1,0,0,0,0,0,0,0,0,1],
 			[1,0,0,0,0,0,0,0,0,1],
 			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,0,0,0,0,1],
+			[1,0,0,0,0,0,0,0,0,1],	
 			[1,1,1,1,1,1,1,1,1,1]
 		]
+
+		this.registerMenu = {
+			selected: 0,
+			prevSelected: 0
+		}
 
 		this.hero = {
 			oldX: 100,
