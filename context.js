@@ -20,9 +20,6 @@ var Context = (function(){
 		this.worker.onload = function(){
 			here.createWorker();
 		}
-		// this.worker.onload = function(){
-		// 	here.forContext.drawImage(here.worker, thisGame.hero.xPOS, thisGame.hero.yPOS);
-		// }
 
 		this.brick = new Image();
 		this.brick.src = ("./assets/brick.png");
@@ -63,6 +60,7 @@ var Context = (function(){
 			selectedImage: this.register_selected,
 			xLoc: 150,
 			yLoc: 250,
+			type: "register"
 		}		
 
 		this.exit_select = new Image();
@@ -74,6 +72,7 @@ var Context = (function(){
 			selectedImage: this.exit_selected,
 			xLoc: 250,
 			yLoc: 250,
+			type: "exit"
 		}
 
 		this.customer_select = new Image();
@@ -85,6 +84,7 @@ var Context = (function(){
 			selectedImage: this.customer_selected,
 			xLoc: 150,
 			yLoc: 200,
+			type: "customer"
 		}
 
 		this.take_selected = new Image();
@@ -96,6 +96,7 @@ var Context = (function(){
 			selectedImage: this.take_selected,
 			xLoc: 250,
 			yLoc: 200,
+			type: "take"
 		}		
 
 		this.menuImage = new Image();

@@ -29,17 +29,20 @@ var Game = (function(){
 			oldX: 100,
 			olxY: 100,
 			xPOS: 100,
-			yPOS: 100,
+			yPOS: 100
+		}
+
+		this.customer = {
+			oldX: 0,
+			oldY: 0,
+			xPOS: 0,
+			yPOS: 0,
+			money: 10,
+			hungry: true
 		}		
 
 		this.checkMap = function(y, x){
 			return this.map[y][x]
-		}
-
-		this.menu = {
-
-			//object for functions called by interact
-			//step 1: create method to check register funds
 		}
 
 		this.interact = function(e, context){
@@ -56,9 +59,9 @@ var Game = (function(){
 		this.exitMenu = function(){
 			this.context.removeImage(this.context.menuContext, 100, 150, 300, 200);
 			this.inMenu = false;
+			this.registerMenu.selected = 0;
+			this.registerMenu.prevSelected = 0;
 		}
-
-
 
 		this.repos = function(e, object){
 			this.hero.oldX = this.hero.xPOS;
@@ -80,10 +83,23 @@ var Game = (function(){
 			this.context.createWorker()
 		}
 
-		this.Register = {
+		this.menuCall = function(type){
+			// do some method in here
+			console.log(type);
+			if (type == "register"){
+				this.showFunds();
+			}
+		}
+
+		this.register = {
 			money: 0
 		}
-			
-	}
+
+		this.showFunds = function(){
+			console.log("There are "+this.register.money+ " dollars in the register.");			
+		}
+
+	
+		}
 	return Game
 })()

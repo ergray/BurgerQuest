@@ -7,7 +7,7 @@ window.onload = function(){
 		if (thisGame.inMenu == false){
 			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
 				thisGame.repos(e, context.worker)
-			} else if (e.keyCode == 32){
+			} else if (e.keyCode == 32){//space
 				thisGame.interact(e, context.menu, context.menuContext);
 			}} else if (thisGame.inMenu == true){
 				thisGame.registerMenu.prevSelected = thisGame.registerMenu.selected;
@@ -23,8 +23,28 @@ window.onload = function(){
 					thisGame.registerMenu.selected-=2;
 				} else if (e.keyCode == 68){//d Right
 					thisGame.registerMenu.selected+=1;
-				} else if (e.keyCode == 27){
+				} else if (e.keyCode == 27){//escape
+					console.log('escape')
+					console.log(selections[thisGame.registerMenu.selected][0])
+					context.removeImage(context.highContext,
+					 					selections[thisGame.registerMenu.selected][0].xLoc,
+					 					selections[thisGame.registerMenu.selected][0].yLoc, 
+					 					selections[thisGame.registerMenu.selected][0].selectedImage.width, 
+					 					selections[thisGame.registerMenu.selected][0].selectedImage.height);
 					thisGame.exitMenu();
+					return;
+				} else if (e.keyCode == 32){//space
+					thisGame.menuCall(selections[thisGame.registerMenu.selected][0].type)
+					console.log(selections[thisGame.registerMenu.selected][0].type);
+					context.removeImage(context.highContext,
+					 					selections[thisGame.registerMenu.selected][0].xLoc,
+					 					selections[thisGame.registerMenu.selected][0].yLoc, 
+					 					selections[thisGame.registerMenu.selected][0].selectedImage.width, 
+					 					selections[thisGame.registerMenu.selected][0].selectedImage.height);
+					
+					thisGame.exitMenu();
+					// thisGame.menuCall(selections[thisGame.registerMenu.selected][0].type)
+					return;
 				}
 				if (thisGame.registerMenu.selected < 0){
 					thisGame.registerMenu.selected = 4-Math.abs(thisGame.registerMenu.selected);
@@ -32,8 +52,6 @@ window.onload = function(){
 					thisGame.registerMenu.selected = 0+(thisGame.registerMenu.selected-4);
 				}
 				//remove highlight from old selection
-				console.log(thisGame.registerMenu.selected);
-				console.log(thisGame.registerMenu.prevSelected);
 				context.removeImage(context.highContext,
 				 					selections[thisGame.registerMenu.prevSelected][0].xLoc,
 				 					selections[thisGame.registerMenu.prevSelected][0].yLoc, 
@@ -47,8 +65,6 @@ window.onload = function(){
 								   selections[thisGame.registerMenu.selected][0].selectedImage.width,
 								   selections[thisGame.registerMenu.selected][0].selectedImage.height
 								   )
-				//redaw original item, unhighlighted (merge with step 1?)
-				//not necessary with multiple layers
 			}
 		}, true)
 
