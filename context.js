@@ -21,6 +21,13 @@ var Context = (function(){
 			here.createWorker();
 		}
 
+		this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
+		this.consumerImage = new Image();
+
+		this.door = new Image()
+		this.door.src = "./assets/door.png"
+
+
 		this.brick = new Image();
 		this.brick.src = ("./assets/brick.png");
 		this.brick.onload = function(){
@@ -32,7 +39,10 @@ var Context = (function(){
 					if (cell==1){
 						here.backContext.drawImage(here.brick, xCur, yCur);
 						xCur+=50;
-					} else {
+					} else if (cell==3){
+						here.backContext.drawImage(here.door, xCur, yCur);
+						xCur+=50;
+					}else {
 						xCur+=50;
 					}
 					//if xCur reaches 500, draw next row of map array				
@@ -122,7 +132,37 @@ var Context = (function(){
 			context.clearRect(x,y,w,h);
 		}
 
+		this.welcomeConsumer = function(consumer){
+			here.consumerImage.src = here.consumers[consumer].src;
+			here.consumerImage.onload = function(){
+				here.forContext.drawImage(here.consumerImage, 250, 450);
+			}
+			// setTimeout(function(){
+			// 	setInterval(here.consumerWalk, 3000, here.consumerImage, here.consumers[consumer])
+			// }, 5000);
+			setTimeout(here.consumerWalk, 5000, here.consumerImage, here.consumers[consumer]);			
+		}
 
+		this.consumerWalk = function(consumerImage, consumer){
+			var walkInterval = setInterval(function(){
+			here.forContext.clearRect(consumer.xCur,consumer.yCur,consumerImage.height, consumerImage.width);
+			consumer.yCur-=50;
+			here.forContext.drawImage(here.consumerImage, consumer.xCur, consumer.yCur);
+			if (consumer.yCur == 250){
+				clearInterval(walkInterval);
+			}			
+			}, 3000)
+			// console.log('in consumer walk pre-walk');
+			// console.log(consumerImage)
+			// console.log(consumer);
+			// console.log('in consumer walk timeout');
+			// here.forContext.clearRect(consumer.xCur,consumer.yCur,consumerImage.height, consumerImage.width);
+			// consumer.yCur-=50;
+			// here.forContext.drawImage(here.consumerImage, consumer.xCur, consumer.yCur);
+			// if (consumer.yCur == 250){
+			// 	clearInterval()
+			// }
+		}
 
 
 	}
