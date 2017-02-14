@@ -5,6 +5,7 @@ var Game = (function(){
 		this.context;
 		this.selected;
 		this.newSelection;
+		this.currentConsumer = 0;
 
 		this.map = [
 			[1,1,1,1,1,1,1,1,1,1],
@@ -17,7 +18,7 @@ var Game = (function(){
 			[1,0,0,0,0,0,0,0,0,1],
 			[1,0,0,0,0,0,0,0,0,1],
 			[1,0,0,0,0,0,0,0,0,1],	
-			[1,1,1,1,1,1,1,1,1,1]
+			[1,1,1,1,1,3,1,1,1,1]
 		]
 
 		this.registerMenu = {
