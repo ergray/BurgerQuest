@@ -27,6 +27,15 @@ var Context = (function(){
 		this.door = new Image()
 		this.door.src = "./assets/door.png"
 
+		this.stovetop = new Image();
+		this.stovetop.src =("./assets/stovetop.png");
+
+		this.stovemiddle = new Image();
+		this.stovemiddle.src = ("./assets/stovemiddle.png");
+
+		this.stovebottom = new Image();
+		this.stovebottom.src = ("./assets/stovebottom.png");		
+
 
 		this.brick = new Image();
 		this.brick.src = ("./assets/brick.png");
@@ -35,12 +44,21 @@ var Context = (function(){
 			var yCur = 0;
 			_.each(thisGame.map, function(row){
 				_.each(row, function(cell){
-					//if cell has a 1, place a wall
-					if (cell==1){
+					//if cell has a 10, place a wall
+					if (cell==10){
 						here.backContext.drawImage(here.brick, xCur, yCur);
 						xCur+=50;
-					} else if (cell==3){
+					} else if (cell==30){
 						here.backContext.drawImage(here.door, xCur, yCur);
+						xCur+=50;
+					} else if (cell==40){
+						here.backContext.drawImage(here.stovetop, xCur, yCur);
+						xCur+=50;
+					} else if (cell==50){
+						here.backContext.drawImage(here.stovemiddle, xCur, yCur);
+						xCur+=50;
+					} else if (cell==60){
+						here.backContext.drawImage(here.stovebottom, xCur, yCur);
 						xCur+=50;
 					}else {
 						xCur+=50;
@@ -59,6 +77,8 @@ var Context = (function(){
 		this.money.onload=function(){
 			here.forContext.drawImage(here.money, 250, 200);
 		}
+
+
 
 
 		this.register_select = new Image();
