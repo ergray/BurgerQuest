@@ -137,10 +137,7 @@ var Context = (function(){
 			here.consumerImage.onload = function(){
 				here.forContext.drawImage(here.consumerImage, 250, 450);
 			}
-			// setTimeout(function(){
-			// 	setInterval(here.consumerWalk, 3000, here.consumerImage, here.consumers[consumer])
-			// }, 5000);
-			setTimeout(here.consumerWalk, 5000, here.consumerImage, here.consumers[consumer]);			
+			setTimeout(here.consumerWalk, 3000, here.consumerImage, here.consumers[consumer]);			
 		}
 
 		this.consumerWalk = function(consumerImage, consumer){
@@ -151,17 +148,7 @@ var Context = (function(){
 			if (consumer.yCur == 250){
 				clearInterval(walkInterval);
 			}			
-			}, 3000)
-			// console.log('in consumer walk pre-walk');
-			// console.log(consumerImage)
-			// console.log(consumer);
-			// console.log('in consumer walk timeout');
-			// here.forContext.clearRect(consumer.xCur,consumer.yCur,consumerImage.height, consumerImage.width);
-			// consumer.yCur-=50;
-			// here.forContext.drawImage(here.consumerImage, consumer.xCur, consumer.yCur);
-			// if (consumer.yCur == 250){
-			// 	clearInterval()
-			// }
+			}, 1000)
 		}
 
 
