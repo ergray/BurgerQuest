@@ -8,17 +8,17 @@ var Game = (function(){
 		this.currentConsumer = 0;
 
 		this.map = [
-			[1,1,1,1,1,1,1,1,1,1],
-			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,2,0,0,0,1],
-			[1,1,1,1,1,1,1,1,1,1],
-			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,0,0,0,0,1],
-			[1,0,0,0,0,0,0,0,0,1],	
-			[1,1,1,1,1,3,1,1,1,1]
+			[10,10,10,10,10,10,10,10,10,10],
+			[10,00,00,00,00,00,00,00,40,10],
+			[10,00,00,00,00,00,00,00,50,10],
+			[10,00,00,00,00,02,00,00,60,10],
+			[10,10,10,10,10,10,10,10,10,10],
+			[10,00,00,00,00,00,00,00,00,10],
+			[10,00,00,00,00,00,00,00,00,10],
+			[10,00,00,00,00,00,00,00,00,10],
+			[10,00,00,00,00,00,00,00,00,10],
+			[10,00,00,00,00,00,00,00,00,10],	
+			[10,10,10,10,10,30,10,10,10,10]
 		]
 
 		this.registerMenu = {
@@ -68,16 +68,16 @@ var Game = (function(){
 			this.hero.oldX = this.hero.xPOS;
 			this.hero.oldY = this.hero.yPOS;
 			if (e.keyCode == 87){
-				if (this.checkMap(Math.floor((this.hero.yPOS-50)/50), Math.floor((this.hero.xPOS)/50)) != 1)
+				if (this.checkMap(Math.floor((this.hero.yPOS-50)/50), Math.floor((this.hero.xPOS)/50)) <= 9)
 				this.hero.yPOS -= 50;
 			} else if (e.keyCode == 83){
-				if (this.checkMap(Math.ceil((this.hero.yPOS+50)/50), Math.floor((this.hero.xPOS)/50)) != 1)
+				if (this.checkMap(Math.ceil((this.hero.yPOS+50)/50), Math.floor((this.hero.xPOS)/50)) <= 9)
 				this.hero.yPOS += 50;	
 			} if (e.keyCode == 65){
-				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.floor((this.hero.xPOS-50)/50)) != 1)
+				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.floor((this.hero.xPOS-50)/50)) <= 9)
 				this.hero.xPOS -= 50;			
 			} if (e.keyCode == 68){
-				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.ceil((this.hero.xPOS+50)/50)) != 1)
+				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.ceil((this.hero.xPOS+50)/50)) <= 9)
 				this.hero.xPOS += 50;	
 			}
 			this.context.removeImage(this.context.forContext, this.hero.oldX, this.hero.oldY, 50, 50);
