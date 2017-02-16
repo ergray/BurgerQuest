@@ -1,16 +1,18 @@
 var Game = (function(){
 
 	var Game = function(){
+		here = this;
 		this.inMenu = false;
 		this.context;
 		this.selected;
 		this.newSelection;
 		this.currentConsumer = 0;
+		this.currentMenu = "empty";
 
 		this.map = [
 			[10,10,10,10,10,10,10,10,10,10],
 			[10,00,00,00,00,00,00,00,40,10],
-			[10,00,00,00,00,00,00,00,50,10],
+			[10,00,00,00,00,00,00,03,50,10],
 			[10,00,00,00,00,02,00,00,60,10],
 			[10,10,10,10,10,10,10,10,10,10],
 			[10,00,00,00,00,00,00,00,00,10],
@@ -21,10 +23,15 @@ var Game = (function(){
 			[10,10,10,10,10,30,10,10,10,10]
 		]
 
-		this.registerMenu = {
+		this.atSelection = {
 			selected: 0,
 			prevSelected: 0
 		}
+
+		this.kitchenMenu = {
+			selected: 0,
+			prevSelected: 0
+		}		
 
 		this.hero = {
 			oldX: 100,
@@ -50,18 +57,23 @@ var Game = (function(){
 			var mapCoords = this.map[this.hero.yPOS/50][this.hero.xPOS/50];
 
 			if (mapCoords == 2){
-				this.context.createMenu(this.context.menuContext, this.context.menuImage, 100, 150);
+				this.currentMenu = 'register'
+				this.context.createMenu(here.currentMenu, this.context.menuContext, this.context.menuImage, 100, 150);
+				this.inMenu = true;
+			} else if (mapCoords == 3){
+				this.currentMenu = 'kitchen';				
+				this.context.createMenu(here.currentMenu, this.context.menuContext, this.context.fightScreen, 0, 0);
 				this.inMenu = true;
 			} else {
-				console.log("Nothing to interact with");
+				console.log("Nothing to interact with.");
 			}
 		}
 
 		this.exitMenu = function(){
 			this.context.removeImage(this.context.menuContext, 100, 150, 300, 200);
 			this.inMenu = false;
-			this.registerMenu.selected = 0;
-			this.registerMenu.prevSelected = 0;
+			this.atSelection.selected = 0;
+			this.atSelection.prevSelected = 0;
 		}
 
 		this.repos = function(e, object){
@@ -85,8 +97,6 @@ var Game = (function(){
 		}
 
 		this.menuCall = function(type){
-			// do some method in here
-			console.log(type);
 			if (type == "register"){
 				this.showFunds();
 			}

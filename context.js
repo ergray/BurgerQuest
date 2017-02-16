@@ -21,6 +21,52 @@ var Context = (function(){
 			here.createWorker();
 		}
 
+		//fight screen:
+		this.fightScreen = new Image();
+		this.fightScreen.src = "./assets/fightscreen.png"
+		this.cook_select = new Image();
+		this.cook_select.src = "./assets/cook_select.png"
+		this.cook_selected = new Image();
+		this.cook_selected.src = "./assets/cook_selected.png"
+		this.cookSelect = {
+			selectImage: this.cook_select,
+			selectedImage: this.cook_selected,
+			xLoc: 100,
+			yLoc: 425
+		}
+		this.item_select = new Image();
+		this.item_select.src = "./assets/item_select.png"
+		this.item_selected = new Image();
+		this.item_selected.src = "./assets/item_selected.png"
+		this.itemSelect = {
+			selectImage: this.item_select,
+			selectedImage: this.item_selected,
+			xLoc: 250,
+			yLoc: 375
+		}
+		this.attack_select = new Image();
+		this.attack_select.src = "./assets/attack_select.png"
+		this.attack_selected = new Image();
+		this.attack_selected.src = "./assets/attack_selected.png"
+		this.attackSelect = {
+			selectImage: this.attack_select,
+			selectedImage: this.attack_selected,
+			xLoc: 100,
+			yLoc: 375
+		}
+		this.flee_select = new Image();
+		this.flee_select.src = "./assets/flee_select.png"
+		this.flee_selected = new Image();
+		this.flee_selected.src = "./assets/flee_selected.png"
+		this.fleeSelect = {
+			selectImage: this.flee_select,
+			selectedImage: this.flee_selected,
+			xLoc: 250,
+			yLoc: 425
+		}
+		this.monster = new Image();
+		this.monster.src = "./assets/monster_standin.png"		
+
 		this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
 		this.consumerImage = new Image();
 
@@ -131,13 +177,24 @@ var Context = (function(){
 
 		this.menuImage = new Image();
 		this.menuImage.src = ("./assets/menutemplate.png");
-		this.createMenu = function(contextLayer, image, x, y){			
-			contextLayer.drawImage(image, x, y);
-			contextLayer.drawImage(here.cSelect.selectImage, here.cSelect.xLoc,here.cSelect.yLoc)
-			contextLayer.drawImage(here.eSelect.selectImage, here.eSelect.xLoc,here.eSelect.yLoc);
-			contextLayer.drawImage(here.rSelect.selectImage, here.rSelect.xLoc,here.rSelect.yLoc);
-			contextLayer.drawImage(here.tSelect.selectImage, here.tSelect.xLoc,here.tSelect.yLoc);
-			this.highlight(here.cSelect.selectedImage, here.cSelect.xLoc, here.cSelect.yLoc)
+
+		this.createMenu = function(type, contextLayer, image, x, y){
+			if (type == 'register'){			
+				contextLayer.drawImage(image, x, y);
+				contextLayer.drawImage(here.cSelect.selectImage, here.cSelect.xLoc,here.cSelect.yLoc)
+				contextLayer.drawImage(here.eSelect.selectImage, here.eSelect.xLoc,here.eSelect.yLoc);
+				contextLayer.drawImage(here.rSelect.selectImage, here.rSelect.xLoc,here.rSelect.yLoc);
+				contextLayer.drawImage(here.tSelect.selectImage, here.tSelect.xLoc,here.tSelect.yLoc);
+				this.highlight(here.cSelect.selectedImage, here.cSelect.xLoc, here.cSelect.yLoc)
+			} else if (type == 'kitchen'){			
+				contextLayer.drawImage(image, x, y);
+				contextLayer.drawImage(here.attackSelect.selectImage, here.attackSelect.xLoc,here.attackSelect.yLoc)
+				contextLayer.drawImage(here.cookSelect.selectImage, here.cookSelect.xLoc,here.cookSelect.yLoc);
+				contextLayer.drawImage(here.fleeSelect.selectImage, here.fleeSelect.xLoc,here.fleeSelect.yLoc);
+				contextLayer.drawImage(here.itemSelect.selectImage, here.itemSelect.xLoc,here.itemSelect.yLoc);
+				this.highlight(here.attackSelect.selectedImage, here.attackSelect.xLoc, here.attackSelect.yLoc)
+
+			}
 		}
 
 		this.highlight = function(image, x, y){
@@ -170,6 +227,36 @@ var Context = (function(){
 			}			
 			}, 1000)
 		}
+
+		this.saveAll = function(){
+			console.log('saving');
+			here.forContext.save();
+			here.backContext.save();
+			here.menuContext.save();
+			here.highContext.save();
+		}
+
+		this.restoreAll = function(){
+			console.log('restoring');
+			here.forContext.restore();
+			here.backContext.restore();
+			here.menuContext.restore();
+			here.highContext.restore();
+		}
+
+		this.clearAll = function(){
+			console.log('clearing');
+			here.forContext.clearRect(0, 0, 500, 550);
+			here.backContext.clearRect(0, 0, 500, 550);
+			here.menuContext.clearRect(0, 0, 500, 550);
+			here.highContext.clearRect(0, 0, 500, 550);
+		}
+
+		this.menuChoices = {
+			register: [here.cSelect, here.tSelect, here.rSelect, here.eSelect],
+			kitchen: [here.attackSelect, here.itemSelect, here.cookSelect, here.fleeSelect]
+		}
+
 
 
 	}
