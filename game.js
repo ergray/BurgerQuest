@@ -4,6 +4,7 @@ var Game = (function(){
 		here = this;
 		this.inMenu = false;
 		this.context;
+		this.text;
 		this.selected;
 		this.newSelection;
 		this.currentConsumer = 0;
