@@ -99,6 +99,7 @@ var Game = (function(){
 		this.menuCall = function(type){
 			if (type == "register"){
 				this.showFunds();
+				this.exitMenu();
 			}
 		}
 
