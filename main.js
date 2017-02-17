@@ -51,10 +51,6 @@ window.onload = function(){
 					thisGame.atSelection.selected = 0+(thisGame.atSelection.selected-4);
 				}
 				//remove highlight from old selection
-				console.log(thisGame.currentMenu);
-				console.log(context.menuChoices[thisGame.currentMenu]);
-				console.log(context.menuChoices[thisGame.currentMenu][0]);
-				console.log(context.menuChoices[thisGame.currentMenu][0].xLoc);
 				context.removeImage(context.highContext,
 										context.menuChoices[thisGame.currentMenu][thisGame.atSelection.prevSelected].xLoc,
 										context.menuChoices[thisGame.currentMenu][thisGame.atSelection.prevSelected].yLoc,
