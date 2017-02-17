@@ -64,8 +64,14 @@ var Context = (function(){
 			xLoc: 250,
 			yLoc: 425
 		}
+
 		this.monster = new Image();
-		this.monster.src = "./assets/monster_standin.png"		
+		this.monster.src = "./assets/monster_standin.png"
+		this.monsterObj = {
+			image: this.monster,
+			xLoc: 100,
+			yLoc: 50
+		}		
 
 		this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
 		this.consumerImage = new Image();
@@ -192,6 +198,7 @@ var Context = (function(){
 				contextLayer.drawImage(here.cookSelect.selectImage, here.cookSelect.xLoc,here.cookSelect.yLoc);
 				contextLayer.drawImage(here.fleeSelect.selectImage, here.fleeSelect.xLoc,here.fleeSelect.yLoc);
 				contextLayer.drawImage(here.itemSelect.selectImage, here.itemSelect.xLoc,here.itemSelect.yLoc);
+				contextLayer.drawImage(here.monsterObj.image, here.monsterObj.xLoc,here.monsterObj.yLoc);
 				this.highlight(here.attackSelect.selectedImage, here.attackSelect.xLoc, here.attackSelect.yLoc)
 
 			}

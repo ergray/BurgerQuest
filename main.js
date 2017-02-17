@@ -34,14 +34,14 @@ window.onload = function(){
 					thisGame.exitMenu();
 					return;
 				} else if (e.keyCode == 32){//space
-					thisGame.menuCall(context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].type)
+					// thisGame.menuCall(context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].type)
 					context.removeImage(context.highContext,
 										context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].xLoc,
 										context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].yLoc,
 										context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].selectedImage.width,
 										context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].selectedImage.height);
 					
-					thisGame.exitMenu();
+					//thisGame.exitMenu();
 					thisGame.menuCall(context.menuChoices[thisGame.currentMenu][thisGame.atSelection.selected].type)
 					return;
 				}
