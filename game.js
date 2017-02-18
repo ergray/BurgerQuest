@@ -27,11 +27,6 @@ var Game = (function(){
 		this.atSelection = {
 			selected: 0,
 			prevSelected: 0
-		}
-
-		this.kitchenMenu = {
-			selected: 0,
-			prevSelected: 0
 		}		
 
 		this.hero = {
@@ -71,7 +66,8 @@ var Game = (function(){
 		}
 
 		this.exitMenu = function(){
-			this.context.removeImage(this.context.menuContext, 100, 150, 300, 200);
+			this.context.menuContext.clearRect(0, 0, 500, 550);
+			this.context.textContext.clearRect(0, 0, 500, 550);
 			this.inMenu = false;
 			this.atSelection.selected = 0;
 			this.atSelection.prevSelected = 0;
@@ -98,7 +94,8 @@ var Game = (function(){
 		}
 
 		this.menuCall = function(type){
-			if (type == "register"){
+			console.log("menu call actived with type: " +type)
+			if (type == "REGISTER"){
 				this.showFunds();
 				this.exitMenu();
 			}
