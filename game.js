@@ -42,7 +42,8 @@ var Game = (function(){
 			xPOS: 0,
 			yPOS: 0,
 			money: 10,
-			hungry: true
+			hungry: true,
+			desire: {cooked: 0, seasoned: 0}
 		}		
 
 		this.checkMap = function(y, x){
