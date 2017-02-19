@@ -126,6 +126,10 @@ var Game = (function(){
 					here.cookFood();
 				} else if (type == "SEASON"){
 					here.seasonFood();
+				} else if (type == "PREPARE"){
+					console.log("Sorry, this doesn't actually do anything")
+				} else if (type == "WRAP"){
+					here.wrapFood();
 				}
 		}
 		
@@ -156,6 +160,10 @@ var Game = (function(){
 			} else {
 				console.log("This food is wayyyy overseasoned.")
 			}
+		}
+
+		this.wrapFood = function(){
+			here.hero.hasFood = true;
 		}
 
 	
