@@ -5,9 +5,10 @@ window.onload = function(){
 	thisGame.context = context;
 	thisGame.text = text;
 	context.text = text;
+	context.game = thisGame;
 
 	window.addEventListener('keydown', function(e){
-		if (thisGame.inMenu == false){
+		if (thisGame.inMenu == false && thisGame.inDialogue == false){
 			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
 				thisGame.repos(e, context.worker)
 			} else if (e.keyCode == 74){
@@ -42,7 +43,11 @@ window.onload = function(){
 					thisGame.atSelection.selected = 0+(thisGame.atSelection.selected-4);
 				}
 				context.highlightText(thisGame.atSelection.prevSelected, thisGame.atSelection.selected, thisGame.currentMenu)
-
+				} else if (thisGame.inDialogue == true){
+					if (e.keyCode == 27){//escape
+						thisGame.exitMenu();
+						return;
+				}
 			}
 		}, true)
 

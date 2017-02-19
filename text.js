@@ -9,13 +9,15 @@ var Text = (function(){
 					   {name: "EXIT", xy: [275, 275]}],
 			
 			kitchen: [{name: "PREPARE", xy: [150, 425]},
-					  {name: "ITEM", xy: [275, 425]},
+					  {name: "SEASON", xy: [275, 425]},
 					  {name: "COOK", xy: [150, 475]},
 					  {name: "WRAP", xy: [275, 475]}]
 		},
 
 		this.dialogue = {
-
+			generic: ["Yeah uh can I get, you know, a hamburger?"],
+			seasoned: ["Not too seasoned."],
+			cooked: ["Just as raw as you can make it."]
 		}
 	}
 

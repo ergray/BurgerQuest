@@ -3,6 +3,7 @@ var Context = (function(){
 		
 		var here = this;
 		this.text;
+		this.game;
 
 		this.foreground = document.getElementById("foreground");
 		this.forContext = this.foreground.getContext("2d");
@@ -129,20 +130,29 @@ var Context = (function(){
 		this.welcomeConsumer = function(consumer){
 			here.consumerImage.src = here.consumers[consumer].src;
 			here.consumerImage.onload = function(){
-				here.forContext.drawImage(here.consumerImage, 250, 450);
+				here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
 			}
 			setTimeout(here.consumerWalk, 3000, here.consumerImage, here.consumers[consumer]);			
 		}
 
 		this.consumerWalk = function(consumerImage, consumer){
 			var walkInterval = setInterval(function(){
-			here.forContext.clearRect(consumer.xCur,consumer.yCur,consumerImage.height, consumerImage.width);
-			consumer.yCur-=50;
-			here.forContext.drawImage(here.consumerImage, consumer.xCur, consumer.yCur);
-			if (consumer.yCur == 250){
+			here.forContext.clearRect(here.game.customer.xPOS,here.game.customer.yPOS,consumerImage.height, consumerImage.width);
+			here.game.customer.yPOS-=50;
+			here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
+			if (here.game.customer.yPOS == 250){
 				clearInterval(walkInterval);
 			}			
 			}, 1000)
+		}
+
+		this.showDialogue = function(){
+			here.menuContext.fillRect(50, 300, 400, 200);
+			here.textContext.font = "20px";
+			here.textContext.fillStyle = "#ffffff";
+			here.textContext.fillText(here.text.dialogue.generic[0], 55, 325);
+			here.textContext.fillText(here.text.dialogue.seasoned[0], 55, 345);
+			here.textContext.fillText(here.text.dialogue.cooked[0], 55, 365);
 		}
 
 		this.clearAll = function(){
