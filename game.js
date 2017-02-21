@@ -66,6 +66,11 @@ var Game = (function(){
 		}
 
 		this.customer = {
+			init: function(){
+				here.customer.desire.cooked = here.getRandomInt(0, 5);
+				here.customer.desire.seasoned = here.getRandomInt(0, 5);
+				console.log(here.customer.desire.cooked + " " + here.customer.desire.seasoned)
+			},
 			oldX: 0,
 			oldY: 0,
 			xPOS: 250,
@@ -122,7 +127,20 @@ var Game = (function(){
 					this.customerOrder();
 					this.inDialogue = true
 				}
-			} else if (type == "COOK"){
+			} else if (type == "SERVE"){
+				if (here.customer.yPOS == 250 && here.hero.hasFood == true){
+					here.exitMenu();
+					here.context.showDialogue([here.text.dialogue.customerSatisfaction[here.checkSatisfaction()]], 55, 325);
+					}
+					here.inDialogue = true;
+					here.hero.hasFood = false;
+					here.food.seasonLevel = 0;
+					here.food.cookLevel = 0;
+					here.customer.hungry = false;								
+			}  else if (type == "EXIT"){
+				this.exitMenu();
+				}
+			  else if (type == "COOK"){
 					here.cookFood();
 				} else if (type == "SEASON"){
 					here.seasonFood();
@@ -137,11 +155,28 @@ var Game = (function(){
 		//Register Methods
 
 		this.customerOrder = function(){
-			here.context.showDialogue();
+			here.context.showDialogue([here.text.dialogue.generic[0],
+									   here.text.dialogue.seasoned[here.customer.desire.seasoned],
+									   here.text.dialogue.cooked[here.customer.desire.cooked]],
+									   55, 325);
 		}
 
 		this.showFunds = function(){
 			console.log("There are "+this.register.money+ " dollars in the register.");			
+		}
+
+		this.checkSatisfaction = function(){
+			var actual = here.food.cookLevel + here.food.seasonLevel
+			var goal = here.customer.desire.seasoned + here.customer.desire.cooked;
+			if (goal == actual){
+				return 0;
+			} else if (actual == goal+1 || actual == goal-1){
+				return 1;
+			} else if (actual == goal+2 || actual == goal-2){
+				return 2;
+			} else {
+				return 3;
+			}
 		}
 
 		//Combat Methods
@@ -164,6 +199,14 @@ var Game = (function(){
 
 		this.wrapFood = function(){
 			here.hero.hasFood = true;
+			here.exitMenu();
+		}
+
+		//misc method (random numbers, etc)
+		this.getRandomInt = function(min, max){
+  			min = Math.ceil(min);
+  			max = Math.floor(max);
+  			return Math.floor(Math.random() * (max - min)) + min;
 		}
 
 	

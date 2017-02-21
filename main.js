@@ -52,5 +52,6 @@ window.onload = function(){
 		}, true)
 
 	setTimeout(context.welcomeConsumer, 5000, thisGame.currentConsumer);
+	thisGame.customer.init();
 
 }
