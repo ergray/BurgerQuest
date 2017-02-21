@@ -146,13 +146,17 @@ var Context = (function(){
 			}, 1000)
 		}
 
-		this.showDialogue = function(){
+		this.showDialogue = function(dialogue, x, y){
+			var x = x;
+			var y = y;
 			here.menuContext.fillRect(50, 300, 400, 200);
 			here.textContext.font = "20px";
 			here.textContext.fillStyle = "#ffffff";
-			here.textContext.fillText(here.text.dialogue.generic[0], 55, 325);
-			here.textContext.fillText(here.text.dialogue.seasoned[0], 55, 345);
-			here.textContext.fillText(here.text.dialogue.cooked[0], 55, 365);
+			_.each(dialogue, function(value, key){
+				console.log(dialogue);
+				here.textContext.fillText(value, x, y);
+				y+=20;
+			})
 		}
 
 		this.clearAll = function(){
