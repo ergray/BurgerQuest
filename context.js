@@ -69,6 +69,9 @@ var Context = (function(){
 		this.stovebottom = new Image();
 		this.stovebottom.src = ("./assets/stovebottom.png");		
 
+		this.table = new Image();
+		this.table.src = ("./assets/table.png");
+
 
 		this.brick = new Image();
 		this.brick.src = ("./assets/brick.png");
@@ -80,6 +83,9 @@ var Context = (function(){
 					//if cell has a 10, place a wall
 					if (cell==10){
 						here.backContext.drawImage(here.brick, xCur, yCur);
+						xCur+=50;
+					} else if (cell==20){
+						here.backContext.drawImage(here.table, xCur, yCur);
 						xCur+=50;
 					} else if (cell==30){
 						here.backContext.drawImage(here.door, xCur, yCur);
@@ -162,18 +168,35 @@ var Context = (function(){
 			here.consumerImage.onload = function(){
 				here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
 			}
-			setTimeout(here.consumerWalk, 3000, here.consumerImage, here.consumers[consumer]);			
+			setTimeout(here.consumerWalk, 3000, here.consumerImage, 250, 250);			
 		}
 
-		this.consumerWalk = function(consumerImage, consumer){
-			var walkInterval = setInterval(function(){
-			here.forContext.clearRect(here.game.customer.xPOS,here.game.customer.yPOS,consumerImage.height, consumerImage.width);
-			here.game.customer.yPOS-=50;
-			here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
-			if (here.game.customer.yPOS == 250){
-				clearInterval(walkInterval);
-			}			
-			}, 1000)
+		this.consumerWalk = function(consumerImage, targetX, targetY){
+				var walkInterval = setInterval(function(){
+				if (here.game.customer.yPOS != targetY){
+					here.forContext.clearRect(here.game.customer.xPOS,here.game.customer.yPOS,consumerImage.height, consumerImage.width);
+					if (here.game.customer.yPOS > targetY){
+						here.game.customer.yPOS-=50;
+					} else if (here.game.customer.yPOS < targetY){
+						here.game.customer.yPOS+=50;
+					}
+					here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
+				}
+
+				if (here.game.customer.xPOS != targetX){
+					here.forContext.clearRect(here.game.customer.xPOS,here.game.customer.yPOS,consumerImage.height, consumerImage.width);
+					if (here.game.customer.xPOS > targetX){
+						here.game.customer.xPOS-=50;
+					} else if (here.game.customer.yPOS < targetX){
+						here.game.customer.xPOS+=50;
+					}
+				here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);					
+				}
+				
+				if (here.game.customer.yPOS == targetY && here.game.customer.xPOS == targetX){
+					clearInterval(walkInterval);
+				}			
+				}, 1000)
 		}
 
 		this.showDialogue = function(dialogue, x, y){
@@ -183,7 +206,6 @@ var Context = (function(){
 			here.textContext.font = "20px";
 			here.textContext.fillStyle = "#ffffff";
 			_.each(dialogue, function(value, key){
-				console.log(dialogue);
 				here.textContext.fillText(value, x, y);
 				y+=20;
 			})

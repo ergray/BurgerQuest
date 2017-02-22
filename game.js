@@ -19,10 +19,10 @@ var Game = (function(){
 			[10,00,00,00,00,00,00,03,50,10],
 			[10,00,00,00,00,02,00,00,60,10],
 			[10,10,10,10,10,10,10,10,10,10],
+			[10,20,00,00,00,00,00,20,00,10],
 			[10,00,00,00,00,00,00,00,00,10],
 			[10,00,00,00,00,00,00,00,00,10],
-			[10,00,00,00,00,00,00,00,00,10],
-			[10,00,00,00,00,00,00,00,00,10],
+			[10,20,00,00,00,00,00,20,00,10],
 			[10,00,00,00,00,00,00,00,00,10],	
 			[10,10,10,10,10,30,10,10,10,10]
 		]
@@ -74,7 +74,7 @@ var Game = (function(){
 			oldX: 0,
 			oldY: 0,
 			xPOS: 250,
-			yPOS: 450,
+			yPOS: 400,
 			money: 10,
 			hungry: true,
 			desire: {cooked: 0, seasoned: 0}
@@ -140,7 +140,8 @@ var Game = (function(){
 					here.hero.hasFood = false;
 					here.food.seasonLevel = 0;
 					here.food.cookLevel = 0;
-					here.customer.hungry = false;								
+					here.customer.hungry = false;
+					here.context.consumerWalk(here.context.consumerImage, 100, 350)								
 			}  else if (type == "EXIT"){
 				this.exitMenu();
 				}
