@@ -89,10 +89,12 @@ var Game = (function(){
 			var mapCoords = this.map[this.hero.yPOS/50][this.hero.xPOS/50];
 
 			if (mapCoords == 2){
+				console.log("creating register")
 				this.currentMenu = 'register'
 				this.context.createMenu(here.currentMenu, this.context.menuContext, this.context.menuImage, 100, 150);
 				this.inMenu = true;
 			} else if (mapCoords == 3){
+				console.log("creating kitchen")
 				this.currentMenu = 'kitchen';				
 				this.context.createMenu(here.currentMenu, this.context.menuContext, this.context.fightScreen, 0, 0);
 				this.inMenu = true;
@@ -109,6 +111,8 @@ var Game = (function(){
 		this.exitMenu = function(){
 			this.context.menuContext.clearRect(0, 0, 500, 550);
 			this.context.textContext.clearRect(0, 0, 500, 550);
+			this.context.burgerContext.clearRect(0, 0, 500, 550);
+			this.context.seasonContext.clearRect(0, 0, 500, 550);
 			this.inMenu = false;
 			this.inDialogue = false;
 			this.atSelection.selected = 0;
@@ -184,6 +188,10 @@ var Game = (function(){
 		this.cookFood = function(){
 			if (here.food.cookLevel < 5){
 				here.food.cookLevel +=1;
+				here.context.hamburger.src = here.context.hamburgerGallery.gallery[here.food.cookLevel]
+				here.context.hamburger.onload = function(){
+					here.context.burgerContext.drawImage(here.context.hamburger, here.context.hamburgerGallery.xPOS, here.context.hamburgerGallery.yPOS)
+				}
 			} else {
 				console.log("This food is wayyyy overcooked.")
 			}
@@ -192,6 +200,10 @@ var Game = (function(){
 		this.seasonFood = function(){
 			if (here.food.seasonLevel < 5){
 				here.food.seasonLevel +=1;
+				here.context.seasoning.src = here.context.seasoningGallery.gallery[here.food.seasonLevel]
+				here.context.seasoning.onload = function(){
+					here.context.seasonContext.drawImage(here.context.seasoning, here.context.seasoningGallery.xPOS, here.context.seasoningGallery.yPOS)
+				}
 			} else {
 				console.log("This food is wayyyy overseasoned.")
 			}

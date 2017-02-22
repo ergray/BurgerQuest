@@ -18,6 +18,7 @@ window.onload = function(){
 			} else if (e.keyCode == 76){
 				context.clearAll();
 			} else if (e.keyCode == 32){//space
+				console.log("calling space")
 				thisGame.interact(e, context.menu, context.menuContext);
 			}} else if (thisGame.inMenu == true){
 				var currentMenu = thisGame.currentMenu
@@ -33,7 +34,8 @@ window.onload = function(){
 				} else if (e.keyCode == 27){//escape
 					thisGame.exitMenu();
 					return;
-				} else if (e.keyCode == 32){//space		
+				} else if (e.keyCode == 32){//space	
+					console.log("calling space")	
 					thisGame.menuCall(text.menus[currentMenu][thisGame.atSelection.selected].name)
 					return;
 				}

@@ -13,6 +13,10 @@ var Context = (function(){
 		this.menuContext = this.menu.getContext("2d");
 		this.textuals = document.getElementById("textLayer");
 		this.textContext = this.textuals.getContext("2d");
+		this.burgers = document.getElementById("burgerLayer");
+		this.burgerContext = this.burgers.getContext("2d");
+		this.seasons = document.getElementById("seasonLayer");
+		this.seasonContext = this.seasons.getContext("2d");
 
 		this.worker = new Image();
 		this.worker.src = "./assets/hero.png";
@@ -27,13 +31,28 @@ var Context = (function(){
 		this.fightScreen = new Image();
 		this.fightScreen.src = "./assets/fightscreen.png"
 
-		this.monster = new Image();
-		this.monster.src = "./assets/monster_standin.png"
-		this.monsterObj = {
-			image: this.monster,
-			xLoc: 100,
-			yLoc: 50
-		}		
+		this.hamburger = new Image();
+		this.hamburgerGallery = {
+			gallery: ["./assets/raw_burger.png",
+					"./assets/medium_raw.png",
+					"./assets/medium_burger.png",
+					"./assets/medium_well.png",
+					"./assets/charred_burger.png"],
+			xPOS: 75,
+			yPOS: 100
+		}
+
+		this.seasoning = new Image();
+		this.seasoningGallery = {
+			gallery: [0,
+					"./assets/salt.png",
+					"./assets/salt_pepper.png",
+					"./assets/pepper_too.png",
+					"./assets/seasoned.png"],
+			xPOS: 75,
+			yPOS: 100
+		}
+
 
 		this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
 		this.consumerImage = new Image();
@@ -96,6 +115,7 @@ var Context = (function(){
 		this.menuImage.src = ("./assets/menutemplate.png");
 
 		this.createMenu = function(type, contextLayer, image, x, y){
+				console.log(type);
 				here.textContext.font="20px Ariel";		
 				contextLayer.drawImage(image, x, y);
 				_.each(this.text.menus[type], function(value, key){
@@ -106,6 +126,16 @@ var Context = (function(){
 						here.textContext.fillStyle="#ffffff";	
 						here.textContext.fillText(value.name, value.xy[0], value.xy[1])}
 				})
+				if (type == "kitchen"){
+
+					console.log(here.game.food.cookLevel);
+					console.log(here.hamburgerGallery);
+					console.log(here.hamburgerGallery.gallery[here.game.food.cookLevel]);
+					here.hamburger.src = here.hamburgerGallery.gallery[here.game.food.cookLevel];
+					here.hamburger.onload = function(){
+						here.burgerContext.drawImage(here.hamburger, here.hamburgerGallery.xPOS, here.hamburgerGallery.yPOS);
+					}				
+				}
 
 			}
 
