@@ -8,7 +8,13 @@ window.onload = function(){
 	context.game = thisGame;
 
 	window.addEventListener('keydown', function(e){
-		if (thisGame.inMenu == false && thisGame.inDialogue == false){
+		if (thisGame.inSplash == true){
+			if (e.keyCode == 32){
+				thisGame.exitMenu();
+				setTimeout(context.welcomeConsumer, 5000, thisGame.currentConsumer);
+				thisGame.customer.init();				
+			}
+		} else if (thisGame.inMenu == false && thisGame.inDialogue == false){
 			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
 				thisGame.repos(e, context.worker)
 			} else if (e.keyCode == 74){
@@ -46,14 +52,13 @@ window.onload = function(){
 				}
 				context.highlightText(thisGame.atSelection.prevSelected, thisGame.atSelection.selected, thisGame.currentMenu)
 				} else if (thisGame.inDialogue == true){
-					if (e.keyCode == 27){//escape
+					if (e.keyCode == 32){//escape
 						thisGame.exitMenu();
 						return;
 				}
 			}
 		}, true)
 
-	setTimeout(context.welcomeConsumer, 5000, thisGame.currentConsumer);
-	thisGame.customer.init();
+	context.start();
 
 }

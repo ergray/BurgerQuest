@@ -17,6 +17,8 @@ var Context = (function(){
 		this.burgerContext = this.burgers.getContext("2d");
 		this.seasons = document.getElementById("seasonLayer");
 		this.seasonContext = this.seasons.getContext("2d");
+		this.splash = document.getElementById("splashLayer");
+		this.splashContext = this.splash.getContext("2d");
 
 		this.worker = new Image();
 		this.worker.src = "./assets/hero.png";
@@ -25,6 +27,15 @@ var Context = (function(){
 		}
 		this.worker.onload = function(){
 			here.createWorker();
+		}
+
+		this.splashScreen = new Image();
+		this.splashScreen.src = "./assets/splash_screen.png"
+
+		this.start = function(){
+			here.splashScreen.onload = function(){
+				here.splashContext.drawImage(here.splashScreen, 0, 0)
+			}
 		}
 
 		//fight screen:

@@ -10,6 +10,7 @@ var Game = (function(){
 		this.currentConsumer = 0;
 		this.currentMenu = "empty";
 		this.inDialogue = false;
+		this.inSplash = true;
 
 
 		//Map assets
@@ -74,7 +75,7 @@ var Game = (function(){
 			oldX: 0,
 			oldY: 0,
 			xPOS: 250,
-			yPOS: 400,
+			yPOS: 450,
 			money: 10,
 			hungry: true,
 			desire: {cooked: 0, seasoned: 0}
@@ -113,6 +114,8 @@ var Game = (function(){
 			this.context.textContext.clearRect(0, 0, 500, 550);
 			this.context.burgerContext.clearRect(0, 0, 500, 550);
 			this.context.seasonContext.clearRect(0, 0, 500, 550);
+			this.context.splashContext.clearRect(0, 0, 500, 550);
+			this.inSplash = false;
 			this.inMenu = false;
 			this.inDialogue = false;
 			this.atSelection.selected = 0;
