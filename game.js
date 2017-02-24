@@ -6,8 +6,10 @@ var Game = (function(){
 		this.context;
 		this.text;
 		this.selected;
+		this.customerTemplate;
 		this.newSelection;
 		this.currentConsumer = 0;
+		this.servedCustomer;
 		this.currentMenu = "empty";
 		this.inDialogue = false;
 		this.inSplash = true;
@@ -27,6 +29,12 @@ var Game = (function(){
 			[10,00,00,00,00,00,00,00,00,10],	
 			[10,10,10,10,10,30,10,10,10,10]
 		]
+
+		this.consumers = [],
+		this.seats = [{occupied: false, x: 50, y: 350}, 
+					  {occupied: false, x: 150, y: 350}, 
+					  {occupied: false, x: 350, y: 350}, 
+					  {occupied: false, x: 400, y: 350}]
 
 		this.checkMap = function(y, x){
 			return this.map[y][x]
@@ -66,20 +74,20 @@ var Game = (function(){
 			cookLevel: 0
 		}
 
-		this.customer = {
-			init: function(){
-				here.customer.desire.cooked = here.getRandomInt(0, 5);
-				here.customer.desire.seasoned = here.getRandomInt(0, 5);
-				console.log(here.customer.desire.cooked + " " + here.customer.desire.seasoned)
-			},
-			oldX: 0,
-			oldY: 0,
-			xPOS: 250,
-			yPOS: 450,
-			money: 10,
-			hungry: true,
-			desire: {cooked: 0, seasoned: 0}
-		}
+		// this.customer = {
+		// 	init: function(){
+		// 		this.customer.desire.cooked = this.getRandomInt(0, 5);
+		// 		this.customer.desire.seasoned = this.getRandomInt(0, 5);
+		// 		console.log(this.customer.desire.cooked + " " + this.customer.desire.seasoned)
+		// 	},
+		// 	oldX: 0,
+		// 	oldY: 0,
+		// 	xPOS: 250,
+		// 	yPOS: 450,
+		// 	money: 10,
+		// 	hungry: true,
+		// 	desire: {cooked: 0, seasoned: 0}
+		// }
 
 		this.register = {
 			money: 0
@@ -92,12 +100,12 @@ var Game = (function(){
 			if (mapCoords == 2){
 				console.log("creating register")
 				this.currentMenu = 'register'
-				this.context.createMenu(here.currentMenu, this.context.menuContext, this.context.menuImage, 100, 150);
+				this.context.createMenu(this.currentMenu, this.context.menuContext, this.context.menuImage, 100, 150);
 				this.inMenu = true;
 			} else if (mapCoords == 3){
 				console.log("creating kitchen")
 				this.currentMenu = 'kitchen';				
-				this.context.createMenu(here.currentMenu, this.context.menuContext, this.context.fightScreen, 0, 0);
+				this.context.createMenu(this.currentMenu, this.context.menuContext, this.context.fightScreen, 0, 0);
 				this.inMenu = true;
 			} else {
 				console.log("Nothing to interact with.");
@@ -123,39 +131,40 @@ var Game = (function(){
 		}
 
 		this.menuCall = function(type){
+			console.log(this);
+			console.log(this);
 			console.log("menu call actived with type: " +type)
 			if (type == "REGISTER"){
 				this.showFunds();
 				this.exitMenu();
 			} else if (type == "CUSTOMER"){
-				console.log(here.customer.yPOS);
-				if (here.customer.yPOS == 250){
+				// console.log(this);
+				// console.log(this.consumers);
+				// console.log(this.currentConsumer);
+				// console.log(this.consumers[this.currentConsumer].yPOS);
+				console.log(this);
+				if (this.consumers[this.currentConsumer].yPOS == 250){
 					this.exitMenu();
 					this.customerOrder();
 					this.inDialogue = true
 				}
 			} else if (type == "SERVE"){
-				if (here.customer.yPOS == 250 && here.hero.hasFood == true){
-					here.exitMenu();
-					here.context.showDialogue([here.text.dialogue.customerSatisfaction[here.checkSatisfaction()]], 55, 325);
-					}
-					here.inDialogue = true;
-					here.hero.hasFood = false;
-					here.food.seasonLevel = 0;
-					here.food.cookLevel = 0;
-					here.customer.hungry = false;
-					here.context.consumerWalk(here.context.consumerImage, 100, 350)								
-			}  else if (type == "EXIT"){
+				if (this.consumers[this.currentConsumer].yPOS == 250 && this.hero.hasFood == true){
+					this.exitMenu();
+					this.serveFood()
+				}
+			}  
+			  else if (type == "EXIT"){
 				this.exitMenu();
 				}
 			  else if (type == "COOK"){
-					here.cookFood();
+					this.cookFood();
 				} else if (type == "SEASON"){
-					here.seasonFood();
+					this.seasonFood();
 				} else if (type == "PREPARE"){
 					console.log("Sorry, this doesn't actually do anything")
 				} else if (type == "WRAP"){
-					here.wrapFood();
+					this.wrapFood();
 				}
 		}
 		
@@ -163,9 +172,9 @@ var Game = (function(){
 		//Register Methods
 
 		this.customerOrder = function(){
-			here.context.showDialogue([here.text.dialogue.generic[0],
-									   here.text.dialogue.seasoned[here.customer.desire.seasoned],
-									   here.text.dialogue.cooked[here.customer.desire.cooked]],
+			this.context.showDialogue([this.text.dialogue.generic[0],
+									   this.text.dialogue.seasoned[this.consumers[this.currentConsumer].desire.seasoned],
+									   this.text.dialogue.cooked[this.consumers[this.currentConsumer].desire.cooked]],
 									   55, 325);
 		}
 
@@ -174,8 +183,8 @@ var Game = (function(){
 		}
 
 		this.checkSatisfaction = function(){
-			var actual = here.food.cookLevel + here.food.seasonLevel
-			var goal = here.customer.desire.seasoned + here.customer.desire.cooked;
+			var actual = this.food.cookLevel + this.food.seasonLevel
+			var goal = this.consumers[this.currentConsumer].desire.seasoned + this.consumers[this.currentConsumer].desire.cooked;
 			if (goal == actual){
 				return 0;
 			} else if (actual == goal+1 || actual == goal-1){
@@ -190,10 +199,10 @@ var Game = (function(){
 		//Combat Methods
 
 		this.cookFood = function(){
-			if (here.food.cookLevel < 5){
-				here.food.cookLevel +=1;
-				here.context.hamburger.src = here.context.hamburgerGallery.gallery[here.food.cookLevel]
-				here.context.hamburger.onload = function(){
+			if (this.food.cookLevel < 5){
+				this.food.cookLevel +=1;
+				this.context.hamburger.src = this.context.hamburgerGallery.gallery[this.food.cookLevel]
+				this.context.hamburger.onload = function(){
 					here.context.burgerContext.drawImage(here.context.hamburger, here.context.hamburgerGallery.xPOS, here.context.hamburgerGallery.yPOS)
 				}
 			} else {
@@ -202,10 +211,10 @@ var Game = (function(){
 		}
 
 		this.seasonFood = function(){
-			if (here.food.seasonLevel < 5){
-				here.food.seasonLevel +=1;
-				here.context.seasoning.src = here.context.seasoningGallery.gallery[here.food.seasonLevel]
-				here.context.seasoning.onload = function(){
+			if (this.food.seasonLevel < 5){
+				this.food.seasonLevel +=1;
+				this.context.seasoning.src = this.context.seasoningGallery.gallery[this.food.seasonLevel]
+				this.context.seasoning.onload = function(){
 					here.context.seasonContext.drawImage(here.context.seasoning, here.context.seasoningGallery.xPOS, here.context.seasoningGallery.yPOS)
 				}
 			} else {
@@ -214,8 +223,22 @@ var Game = (function(){
 		}
 
 		this.wrapFood = function(){
-			here.hero.hasFood = true;
-			here.exitMenu();
+			this.hero.hasFood = true;
+			this.exitMenu();
+		}
+
+		this.serveFood = function(){
+			var availSeats = _.where(this.seats, {occupied: false})
+			this.context.showDialogue([this.text.dialogue.customerSatisfaction[this.checkSatisfaction()]], 55, 325);
+			this.hero.hasFood = false;
+			this.food.seasonLevel = 0;
+			this.food.cookLevel = 0;
+			this.consumers[this.currentConsumer].hungry = false;
+			this.servedCustomer = this.consumers[this.currentConsumer].id;
+			this.currentConsumer += 1;
+			this.context.consumerWalk(this.consumers[this.servedCustomer], this.context.consumerImage, availSeats[0].x, availSeats[0].y);
+			setTimeout(here.context.welcomeConsumer, 3000, here.consumers[here.currentConsumer]);	
+			availSeats[0].occupied = true;													
 		}
 
 		//misc method (random numbers, etc)
@@ -223,7 +246,19 @@ var Game = (function(){
   			min = Math.ceil(min);
   			max = Math.floor(max);
   			return Math.floor(Math.random() * (max - min)) + min;
+		}		
+
+		this.fillConsumers = function(){
+			for (var i = 0; i < 10; i++){
+				this.consumers[i] = new Customer()
+				this.consumers[i].init(i);
+				}
+			}
+
+		this.showFreeSeats = function(){
+			return _.where(this.seats, {occupied: false})
 		}
+		// }
 
 	
 		}
