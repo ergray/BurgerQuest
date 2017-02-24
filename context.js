@@ -65,7 +65,7 @@ var Context = (function(){
 		}
 
 
-		this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
+		// this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
 		this.consumerImage = new Image();
 
 		this.door = new Image()
@@ -175,36 +175,48 @@ var Context = (function(){
 		}
 
 		this.welcomeConsumer = function(consumer){
-			here.consumerImage.src = here.consumers[consumer].src;
+			here.consumerImage.src = consumer.src;
 			here.consumerImage.onload = function(){
-				here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
+				here.forContext.drawImage(here.consumerImage, 
+										  consumer.xPOS, 
+										  consumer.yPOS);
 			}
-			setTimeout(here.consumerWalk, 3000, here.consumerImage, 250, 250);			
+			setTimeout(here.consumerWalk, 3000, consumer, here.consumerImage, 250, 250);			
 		}
 
-		this.consumerWalk = function(consumerImage, targetX, targetY){
+		this.consumerWalk = function(consumer, consumerImage, targetX, targetY){
 				var walkInterval = setInterval(function(){
-				if (here.game.customer.yPOS != targetY){
-					here.forContext.clearRect(here.game.customer.xPOS,here.game.customer.yPOS,consumerImage.height, consumerImage.width);
-					if (here.game.customer.yPOS > targetY){
-						here.game.customer.yPOS-=50;
-					} else if (here.game.customer.yPOS < targetY){
-						here.game.customer.yPOS+=50;
+				if (consumer.yPOS != targetY){
+					here.forContext.clearRect(consumer.xPOS,
+											  consumer.yPOS,
+											  consumerImage.height, 
+											  consumerImage.width);
+					if (consumer.yPOS > targetY){
+						consumer.yPOS-=50;
+					} else if (consumer.yPOS < targetY){
+						consumer.yPOS+=50;
 					}
-					here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);
+					here.forContext.drawImage(here.consumerImage, 
+											  consumer.xPOS,
+											  consumer.yPOS);
 				}
 
-				if (here.game.customer.xPOS != targetX){
-					here.forContext.clearRect(here.game.customer.xPOS,here.game.customer.yPOS,consumerImage.height, consumerImage.width);
-					if (here.game.customer.xPOS > targetX){
-						here.game.customer.xPOS-=50;
-					} else if (here.game.customer.yPOS < targetX){
-						here.game.customer.xPOS+=50;
+				if (consumer.xPOS != targetX){
+					here.forContext.clearRect(consumer.xPOS,
+											  consumer.yPOS,
+											  consumerImage.height, 
+											  consumerImage.width);
+					if (consumer.xPOS > targetX){
+						consumer.xPOS-=50;
+					} else if (consumer.xPOS < targetX){
+						consumer.xPOS+=50;
 					}
-				here.forContext.drawImage(here.consumerImage, here.game.customer.xPOS, here.game.customer.yPOS);					
+				here.forContext.drawImage(here.consumerImage, 
+										  consumer.xPOS,
+										  consumer.yPOS);					
 				}
 				
-				if (here.game.customer.yPOS == targetY && here.game.customer.xPOS == targetX){
+				if (consumer.yPOS == targetY && consumer.xPOS == targetX){
 					clearInterval(walkInterval);
 				}			
 				}, 1000)
@@ -213,6 +225,7 @@ var Context = (function(){
 		this.showDialogue = function(dialogue, x, y){
 			var x = x;
 			var y = y;
+			here.game.inDialogue = true;
 			here.menuContext.fillRect(50, 300, 400, 200);
 			here.textContext.font = "20px";
 			here.textContext.fillStyle = "#ffffff";

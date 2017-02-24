@@ -11,8 +11,8 @@ window.onload = function(){
 		if (thisGame.inSplash == true){
 			if (e.keyCode == 32){
 				thisGame.exitMenu();
-				setTimeout(context.welcomeConsumer, 5000, thisGame.currentConsumer);
-				thisGame.customer.init();				
+				setTimeout(context.welcomeConsumer, 5000, thisGame.consumers[thisGame.currentConsumer]);
+				//thisGame.customer.init();				
 			}
 		} else if (thisGame.inMenu == false && thisGame.inDialogue == false){
 			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
@@ -60,5 +60,6 @@ window.onload = function(){
 		}, true)
 
 	context.start();
+	thisGame.fillConsumers();
 
 }
