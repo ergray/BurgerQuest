@@ -74,21 +74,6 @@ var Game = (function(){
 			cookLevel: 0
 		}
 
-		// this.customer = {
-		// 	init: function(){
-		// 		this.customer.desire.cooked = this.getRandomInt(0, 5);
-		// 		this.customer.desire.seasoned = this.getRandomInt(0, 5);
-		// 		console.log(this.customer.desire.cooked + " " + this.customer.desire.seasoned)
-		// 	},
-		// 	oldX: 0,
-		// 	oldY: 0,
-		// 	xPOS: 250,
-		// 	yPOS: 450,
-		// 	money: 10,
-		// 	hungry: true,
-		// 	desire: {cooked: 0, seasoned: 0}
-		// }
-
 		this.register = {
 			money: 0
 		}
@@ -131,18 +116,10 @@ var Game = (function(){
 		}
 
 		this.menuCall = function(type){
-			console.log(this);
-			console.log(this);
-			console.log("menu call actived with type: " +type)
 			if (type == "REGISTER"){
 				this.showFunds();
 				this.exitMenu();
 			} else if (type == "CUSTOMER"){
-				// console.log(this);
-				// console.log(this.consumers);
-				// console.log(this.currentConsumer);
-				// console.log(this.consumers[this.currentConsumer].yPOS);
-				console.log(this);
 				if (this.consumers[this.currentConsumer].yPOS == 250){
 					this.exitMenu();
 					this.customerOrder();

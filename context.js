@@ -4,6 +4,7 @@ var Context = (function(){
 		var here = this;
 		this.text;
 		this.game;
+		this.audio;
 
 		this.foreground = document.getElementById("foreground");
 		this.forContext = this.foreground.getContext("2d");
@@ -35,6 +36,7 @@ var Context = (function(){
 		this.start = function(){
 			here.splashScreen.onload = function(){
 				here.splashContext.drawImage(here.splashScreen, 0, 0)
+				here.audio.loadSound("./assets/burgerIntro.mp3")
 			}
 		}
 

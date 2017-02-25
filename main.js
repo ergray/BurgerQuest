@@ -2,10 +2,12 @@ window.onload = function(){
 	thisGame = new Game();
 	var context = new Context();
 	var text = new Text();
+	var thisAudio = new Audible();
 	thisGame.context = context;
 	thisGame.text = text;
 	context.text = text;
 	context.game = thisGame;
+	context.audio = thisAudio;
 
 	window.addEventListener('keydown', function(e){
 		if (thisGame.inSplash == true){
