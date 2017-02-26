@@ -87,7 +87,7 @@ var Game = (function(){
 				this.currentMenu = 'register'
 				this.context.createMenu(this.currentMenu, this.context.menuContext, this.context.menuImage, 100, 150);
 				this.inMenu = true;
-			} else if (mapCoords == 3){
+			} else if (mapCoords == 3 && this.hero.hasFood == false){
 				console.log("creating kitchen")
 				this.currentMenu = 'kitchen';				
 				this.context.createMenu(this.currentMenu, this.context.menuContext, this.context.fightScreen, 0, 0);

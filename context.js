@@ -24,7 +24,7 @@ var Context = (function(){
 		this.worker = new Image();
 		this.worker.src = "./assets/hero.png";
 		this.createWorker = function(){
-			here.forContext.drawImage(here.worker, thisGame.hero.xPOS, thisGame.hero.yPOS);			
+			here.forContext.drawImage(here.worker, thisGame.hero.xPOS, thisGame.hero.yPOS);	
 		}
 		this.worker.onload = function(){
 			here.createWorker();
@@ -181,7 +181,8 @@ var Context = (function(){
 			here.consumerImage.onload = function(){
 				here.forContext.drawImage(here.consumerImage, 
 										  consumer.xPOS, 
-										  consumer.yPOS);
+										  consumer.yPOS);				
+				here.audio.loadSound("./assets/doorbell.mp3")		
 			}
 			setTimeout(here.consumerWalk, 3000, consumer, here.consumerImage, 250, 250);			
 		}
