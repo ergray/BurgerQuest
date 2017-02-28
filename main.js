@@ -3,18 +3,21 @@ window.onload = function(){
 	var context = new Context();
 	var text = new Text();
 	var thisAudio = new Audible();
+	var customer = new Customer();
 	thisGame.context = context;
 	thisGame.text = text;
+	thisGame.customer = customer;
 	context.text = text;
 	context.game = thisGame;
 	context.audio = thisAudio;
+	customer.game = thisGame;
+	customer.context = context;
 
 	window.addEventListener('keydown', function(e){
 		if (thisGame.inSplash == true){
 			if (e.keyCode == 32){
 				thisGame.exitMenu();
-				setTimeout(context.welcomeConsumer, 5000, thisGame.consumers[thisGame.currentConsumer]);
-				//thisGame.customer.init();				
+				setTimeout(context.welcomeConsumer, 5000, thisGame.consumers[thisGame.currentConsumer]);				//thisGame.customer.init();				
 			}
 		} else if (thisGame.inMenu == false && thisGame.inDialogue == false){
 			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
@@ -26,7 +29,6 @@ window.onload = function(){
 			} else if (e.keyCode == 76){
 				context.clearAll();
 			} else if (e.keyCode == 32){//space
-				console.log("calling space")
 				thisGame.interact(e, context.menu, context.menuContext);
 			}} else if (thisGame.inMenu == true){
 				var currentMenu = thisGame.currentMenu

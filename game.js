@@ -13,6 +13,7 @@ var Game = (function(){
 		this.currentMenu = "empty";
 		this.inDialogue = false;
 		this.inSplash = true;
+		this.customer;
 
 
 		//Map assets
@@ -22,12 +23,12 @@ var Game = (function(){
 			[10,00,00,00,00,00,00,03,50,10],
 			[10,00,00,00,00,02,00,00,60,10],
 			[10,10,10,10,10,10,10,10,10,10],
-			[10,20,00,00,00,00,00,20,00,10],
+			[10,20,11,00,00,00,00,20,11,10],
+			[10,11,11,00,00,00,00,11,11,10],
 			[10,00,00,00,00,00,00,00,00,10],
-			[10,00,00,00,00,00,00,00,00,10],
-			[10,20,00,00,00,00,00,20,00,10],
-			[10,00,00,00,00,00,00,00,00,10],	
-			[10,10,10,10,10,30,10,10,10,10]
+			[10,20,11,00,00,00,00,20,11,10],
+			[10,11,11,00,00,00,00,11,11,10],	
+			[10,10,10,10,10,09,10,10,10,10]
 		]
 
 		this.consumers = [],
@@ -38,23 +39,51 @@ var Game = (function(){
 
 		this.checkMap = function(y, x){
 			return this.map[y][x]
+		}
+
+		this.lookAhead = function(direction, x, y){
+			if (direction == "up"){
+				if (this.checkMap(Math.floor((y-50)/50), Math.floor((x)/50)) <= 9){
+					return true
+				} else {
+					return false
+				}
+			} else if (direction == "down"){
+				if (this.checkMap(Math.floor((y+50)/50), Math.floor((x)/50)) <= 9){
+					return true
+				} else {
+					return false
+				}
+			} else if (direction == "left"){
+				if (this.checkMap(Math.floor((y)/50), Math.floor((x-50)/50)) <= 9){
+					return true
+				} else {
+					return false
+				}
+			} else if (direction == "right"){
+				if (this.checkMap(Math.floor((y)/50), Math.floor((x+50)/50)) <= 9){
+					return true
+				} else {
+					return false
+				}				
+			}
 		}	
 
 		this.repos = function(e, object){
 			this.hero.oldX = this.hero.xPOS;
 			this.hero.oldY = this.hero.yPOS;
 			if (e.keyCode == 87){
-				if (this.checkMap(Math.floor((this.hero.yPOS-50)/50), Math.floor((this.hero.xPOS)/50)) <= 9)
-				this.hero.yPOS -= 50;
+				if(this.lookAhead("up", this.hero.xPOS, this.hero.yPOS) == true){
+				this.hero.yPOS -= 50;}
 			} else if (e.keyCode == 83){
-				if (this.checkMap(Math.ceil((this.hero.yPOS+50)/50), Math.floor((this.hero.xPOS)/50)) <= 9)
-				this.hero.yPOS += 50;	
+				if(this.lookAhead("down", this.hero.xPOS, this.hero.yPOS) == true){
+				this.hero.yPOS += 50;}
 			} if (e.keyCode == 65){
-				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.floor((this.hero.xPOS-50)/50)) <= 9)
-				this.hero.xPOS -= 50;			
+				if(this.lookAhead("left", this.hero.xPOS, this.hero.yPOS) == true){
+				this.hero.xPOS -= 50;}			
 			} if (e.keyCode == 68){
-				if (this.checkMap(Math.floor((this.hero.yPOS)/50), Math.ceil((this.hero.xPOS+50)/50)) <= 9)
-				this.hero.xPOS += 50;	
+				if(this.lookAhead("right", this.hero.xPOS, this.hero.yPOS) == true){
+				this.hero.xPOS += 50;}	
 			}
 			this.context.removeImage(this.context.forContext, this.hero.oldX, this.hero.oldY, 50, 50);
 			this.context.createWorker()
@@ -205,17 +234,22 @@ var Game = (function(){
 		}
 
 		this.serveFood = function(){
+			console.log(this.seats);
+			var ourCusty = this.consumers[this.currentConsumer]
 			var availSeats = _.where(this.seats, {occupied: false})
 			this.context.showDialogue([this.text.dialogue.customerSatisfaction[this.checkSatisfaction()]], 55, 325);
 			this.hero.hasFood = false;
 			this.food.seasonLevel = 0;
 			this.food.cookLevel = 0;
-			this.consumers[this.currentConsumer].hungry = false;
-			this.servedCustomer = this.consumers[this.currentConsumer].id;
+			ourCusty.hungry = false;
+			ourCusty.xSeat = availSeats[0].x;
+			ourCusty.ySeat = availSeats[0].y;
+			this.servedCustomer = ourCusty.id;
 			this.currentConsumer += 1;
-			this.context.consumerWalk(this.consumers[this.servedCustomer], this.context.consumerImage, availSeats[0].x, availSeats[0].y);
+			setTimeout(ourCusty.moveCustomer, 2000, ourCusty, availSeats[0].x, availSeats[0].y);
 			setTimeout(here.context.welcomeConsumer, 3000, here.consumers[here.currentConsumer]);	
-			availSeats[0].occupied = true;													
+			availSeats[0].occupied = true;
+			setTimeout(this.context.goHome, 15000, ourCusty)													
 		}
 
 		//misc method (random numbers, etc)
@@ -228,14 +262,13 @@ var Game = (function(){
 		this.fillConsumers = function(){
 			for (var i = 0; i < 10; i++){
 				this.consumers[i] = new Customer()
-				this.consumers[i].init(i);
+				this.consumers[i].init(i, here, here.context);
 				}
 			}
 
 		this.showFreeSeats = function(){
 			return _.where(this.seats, {occupied: false})
 		}
-		// }
 
 	
 		}

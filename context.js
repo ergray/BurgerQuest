@@ -66,8 +66,6 @@ var Context = (function(){
 			yPOS: 100
 		}
 
-
-		// this.consumers = [{name: "tony", src: "./assets/consumer.png", xCur: 250, yCur: 450}]
 		this.consumerImage = new Image();
 
 		this.door = new Image()
@@ -100,7 +98,7 @@ var Context = (function(){
 					} else if (cell==20){
 						here.backContext.drawImage(here.table, xCur, yCur);
 						xCur+=50;
-					} else if (cell==30){
+					} else if (cell==09){
 						here.backContext.drawImage(here.door, xCur, yCur);
 						xCur+=50;
 					} else if (cell==40){
@@ -134,7 +132,6 @@ var Context = (function(){
 		this.menuImage.src = ("./assets/menutemplate.png");
 
 		this.createMenu = function(type, contextLayer, image, x, y){
-				console.log(type);
 				here.textContext.font="20px Ariel";		
 				contextLayer.drawImage(image, x, y);
 				_.each(this.text.menus[type], function(value, key){
@@ -146,10 +143,6 @@ var Context = (function(){
 						here.textContext.fillText(value.name, value.xy[0], value.xy[1])}
 				})
 				if (type == "kitchen"){
-
-					console.log(here.game.food.cookLevel);
-					console.log(here.hamburgerGallery);
-					console.log(here.hamburgerGallery.gallery[here.game.food.cookLevel]);
 					here.hamburger.src = here.hamburgerGallery.gallery[here.game.food.cookLevel];
 					here.hamburger.onload = function(){
 						here.burgerContext.drawImage(here.hamburger, here.hamburgerGallery.xPOS, here.hamburgerGallery.yPOS);
@@ -184,45 +177,13 @@ var Context = (function(){
 										  consumer.yPOS);				
 				here.audio.loadSound("./assets/doorbell.mp3")		
 			}
-			setTimeout(here.consumerWalk, 3000, consumer, here.consumerImage, 250, 250);			
+			setTimeout(consumer.moveCustomer, 3000, consumer, 250, 250);			
 		}
 
-		this.consumerWalk = function(consumer, consumerImage, targetX, targetY){
-				var walkInterval = setInterval(function(){
-				if (consumer.yPOS != targetY){
-					here.forContext.clearRect(consumer.xPOS,
-											  consumer.yPOS,
-											  consumerImage.height, 
-											  consumerImage.width);
-					if (consumer.yPOS > targetY){
-						consumer.yPOS-=50;
-					} else if (consumer.yPOS < targetY){
-						consumer.yPOS+=50;
-					}
-					here.forContext.drawImage(here.consumerImage, 
-											  consumer.xPOS,
-											  consumer.yPOS);
-				}
+		this.goHome = function(customer){
+			customer.moveCustomer(customer, 250, 500);
+			_.findWhere(here.game.seats, {x: customer.xSeat, y: customer.ySeat}).occupied = false;
 
-				if (consumer.xPOS != targetX){
-					here.forContext.clearRect(consumer.xPOS,
-											  consumer.yPOS,
-											  consumerImage.height, 
-											  consumerImage.width);
-					if (consumer.xPOS > targetX){
-						consumer.xPOS-=50;
-					} else if (consumer.xPOS < targetX){
-						consumer.xPOS+=50;
-					}
-				here.forContext.drawImage(here.consumerImage, 
-										  consumer.xPOS,
-										  consumer.yPOS);					
-				}
-				
-				if (consumer.yPOS == targetY && consumer.xPOS == targetX){
-					clearInterval(walkInterval);
-				}			
-				}, 1000)
 		}
 
 		this.showDialogue = function(dialogue, x, y){
@@ -237,16 +198,6 @@ var Context = (function(){
 				y+=20;
 			})
 		}
-
-		this.clearAll = function(){
-			console.log('clearing');
-			here.forContext.clearRect(0, 0, 500, 550);
-			here.backContext.clearRect(0, 0, 500, 550);
-			here.menuContext.clearRect(0, 0, 500, 550);
-			here.textContext.clearRect(0, 0, 500, 550);
-		}
-
-
 
 	}
 	return Context;
