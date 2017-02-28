@@ -24,6 +24,14 @@ var Customer = (function(){
 			here.context = context;	
 		},
 
+		this.pay = function(satisfaction){
+			if (satisfaction >= 3){
+				return;
+			} else {
+				here.game.register.money += (here.money-satisfaction)
+			}
+		}
+
 		this.moveCustomer = function(customer, x, y){
 				var walkInterval = setInterval(function(){
 					if (customer.yPOS > y){	

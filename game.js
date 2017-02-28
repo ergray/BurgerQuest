@@ -112,12 +112,10 @@ var Game = (function(){
 			var mapCoords = this.map[this.hero.yPOS/50][this.hero.xPOS/50];
 
 			if (mapCoords == 2){
-				console.log("creating register")
 				this.currentMenu = 'register'
 				this.context.createMenu(this.currentMenu, this.context.menuContext, this.context.menuImage, 100, 150);
 				this.inMenu = true;
 			} else if (mapCoords == 3 && this.hero.hasFood == false){
-				console.log("creating kitchen")
 				this.currentMenu = 'kitchen';				
 				this.context.createMenu(this.currentMenu, this.context.menuContext, this.context.fightScreen, 0, 0);
 				this.inMenu = true;
@@ -146,8 +144,8 @@ var Game = (function(){
 
 		this.menuCall = function(type){
 			if (type == "REGISTER"){
-				this.showFunds();
 				this.exitMenu();
+				this.showFunds(this.register.money);
 			} else if (type == "CUSTOMER"){
 				if (this.consumers[this.currentConsumer].yPOS == 250){
 					this.exitMenu();
@@ -184,8 +182,8 @@ var Game = (function(){
 									   55, 325);
 		}
 
-		this.showFunds = function(){
-			console.log("There are "+this.register.money+ " dollars in the register.");			
+		this.showFunds = function(money){
+			here.context.showDialogue(["This register currently has "+money+" dollars."], 50, 325)		
 		}
 
 		this.checkSatisfaction = function(){
@@ -237,7 +235,9 @@ var Game = (function(){
 			console.log(this.seats);
 			var ourCusty = this.consumers[this.currentConsumer]
 			var availSeats = _.where(this.seats, {occupied: false})
-			this.context.showDialogue([this.text.dialogue.customerSatisfaction[this.checkSatisfaction()]], 55, 325);
+			var satisfaction = this.checkSatisfaction();
+			this.context.showDialogue([this.text.dialogue.customerSatisfaction[satisfaction], this.text.dialogue.tips[satisfaction]], 55, 325);
+			ourCusty.pay(satisfaction);
 			this.hero.hasFood = false;
 			this.food.seasonLevel = 0;
 			this.food.cookLevel = 0;
