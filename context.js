@@ -187,6 +187,7 @@ var Context = (function(){
 		}
 
 		this.showDialogue = function(dialogue, x, y){
+			console.log(dialogue);
 			var x = x;
 			var y = y;
 			here.game.inDialogue = true;
@@ -194,6 +195,7 @@ var Context = (function(){
 			here.textContext.font = "20px";
 			here.textContext.fillStyle = "#ffffff";
 			_.each(dialogue, function(value, key){
+				console.log(value);
 				here.textContext.fillText(value, x, y);
 				y+=20;
 			})

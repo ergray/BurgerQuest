@@ -21,7 +21,11 @@ var Text = (function(){
 			customerSatisfaction: ["Wow, this is exactly what I wanted!", 
 								   "Yeah this is okay.", 
 								   "This was not great.", 
-								   "I am never coming here again. This is disgusting."]
+								   "I am never coming here again."],
+			tips: ["Enjoy your tip!",
+				   "Here's a small bonus.",
+				   "",
+				   "I am not paying for this."]					   
 		}
 	}
 
