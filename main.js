@@ -1,6 +1,6 @@
 window.onload = function(){
-	thisGame = new Game();
-	var context = new Context();
+	var thisGame = new Game();
+	var context = new Context(thisGame);
 	var text = new Text();
 	var thisAudio = new Audible();
 	var customer = new Customer();
@@ -8,7 +8,7 @@ window.onload = function(){
 	thisGame.text = text;
 	thisGame.customer = customer;
 	context.text = text;
-	context.game = thisGame;
+	//context.game = thisGame;
 	context.audio = thisAudio;
 	customer.game = thisGame;
 	customer.context = context;

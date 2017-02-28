@@ -1,9 +1,9 @@
-var Context = (function(){
-	var Context = function(){
+var Context = (function(game){
+	var Context = function(game){
 		
 		var here = this;
 		this.text;
-		this.game;
+		this.game = game;
 		this.audio;
 
 		this.foreground = document.getElementById("foreground");
@@ -24,7 +24,7 @@ var Context = (function(){
 		this.worker = new Image();
 		this.worker.src = "./assets/hero.png";
 		this.createWorker = function(){
-			here.forContext.drawImage(here.worker, thisGame.hero.xPOS, thisGame.hero.yPOS);	
+			here.forContext.drawImage(here.worker, here.game.hero.xPOS, here.game.hero.yPOS);	
 		}
 		this.worker.onload = function(){
 			here.createWorker();
@@ -89,7 +89,7 @@ var Context = (function(){
 		this.brick.onload = function(){
 			var xCur = 0;
 			var yCur = 0;
-			_.each(thisGame.map, function(row){
+			_.each(here.game.map, function(row){
 				_.each(row, function(cell){
 					//if cell has a 10, place a wall
 					if (cell==10){
