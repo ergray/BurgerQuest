@@ -26,6 +26,11 @@ var Context = (function(game){
 		this.createWorker = function(){
 			here.forContext.drawImage(here.worker, here.game.hero.xPOS, here.game.hero.yPOS);	
 		}
+
+
+		this.money = new Image();
+		this.money.src = ("./assets/money.png");
+
 		this.worker.onload = function(){
 			here.createWorker();
 		}
@@ -94,20 +99,27 @@ var Context = (function(game){
 					//if cell has a 10, place a wall
 					if (cell==10){
 						here.backContext.drawImage(here.brick, xCur, yCur);
+						console.log('should be drawing bricks')
+						console.log('status of brick: ', here.brick)
 						xCur+=50;
 					} else if (cell==20){
+						console.log('status of table: ', here.table)
 						here.backContext.drawImage(here.table, xCur, yCur);
 						xCur+=50;
 					} else if (cell==09){
+						console.log('status of door: ', here.door)
 						here.backContext.drawImage(here.door, xCur, yCur);
 						xCur+=50;
 					} else if (cell==40){
+						console.log('status of stovetop: ', here.stovetop)
 						here.backContext.drawImage(here.stovetop, xCur, yCur);
 						xCur+=50;
 					} else if (cell==50){
+						console.log('status of stovemiddle: ', here.stovemiddle)
 						here.backContext.drawImage(here.stovemiddle, xCur, yCur);
 						xCur+=50;
 					} else if (cell==60){
+						console.log('status of stovebottom: ', here.stovebottom)
 						here.backContext.drawImage(here.stovebottom, xCur, yCur);
 						xCur+=50;
 					}else {
@@ -122,8 +134,7 @@ var Context = (function(game){
 			})
 		}
 
-		this.money = new Image();
-		this.money.src = ("./assets/money.png");
+
 		this.money.onload=function(){
 			here.forContext.drawImage(here.money, 250, 200);
 		}		

@@ -14,11 +14,13 @@ window.onload = function(){
 	customer.context = context;
 
 	window.addEventListener('keydown', function(e){
+		//check if user in instruction splash page, on space key start game
 		if (thisGame.inSplash == true){
 			if (e.keyCode == 32){
 				thisGame.exitMenu();
 				setTimeout(context.welcomeConsumer, 5000, thisGame.consumers[thisGame.currentConsumer]);				//thisGame.customer.init();				
 			}
+		//input rules for restaurant:	
 		} else if (thisGame.inMenu == false && thisGame.inDialogue == false){
 			if (e.keyCode == 87 || e.keyCode == 83 || e.keyCode == 65 || e.keyCode == 68){
 				thisGame.repos(e, context.worker)
@@ -30,6 +32,7 @@ window.onload = function(){
 				context.clearAll();
 			} else if (e.keyCode == 32){//space
 				thisGame.interact(e, context.menu, context.menuContext);
+			//input rules for menus:	
 			}} else if (thisGame.inMenu == true){
 				var currentMenu = thisGame.currentMenu
 				thisGame.atSelection.prevSelected = thisGame.atSelection.selected;
@@ -45,7 +48,6 @@ window.onload = function(){
 					thisGame.exitMenu();
 					return;
 				} else if (e.keyCode == 32){//space	
-					console.log("calling space")	
 					thisGame.menuCall(text.menus[currentMenu][thisGame.atSelection.selected].name)
 					return;
 				}
