@@ -19,7 +19,9 @@ $(document).ready(function(){
 		if (thisGame.inSplash == true){
 			if (e.keyCode == 32){
 				thisGame.exitMenu();
+				context.drawMap();
 				setTimeout(context.welcomeConsumer, 5000, thisGame.consumers[thisGame.currentConsumer]);				//thisGame.customer.init();				
+						
 			}
 		//input rules for restaurant:	
 		} else if (thisGame.inMenu == false && thisGame.inDialogue == false){

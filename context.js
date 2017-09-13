@@ -21,6 +21,41 @@ var Context = (function(game){
 		this.splash = document.getElementById("splashLayer");
 		this.splashContext = this.splash.getContext("2d");
 
+		this.drawMap = function(){
+			var xCur = 0;
+			var yCur = 0;
+			_.each(here.game.map, function(row){
+				_.each(row, function(cell){
+					if (cell==10){
+						here.backContext.drawImage(here.brick, xCur, yCur);
+						xCur+=50;
+					} else if (cell==20){
+						here.backContext.drawImage(here.table, xCur, yCur);
+						xCur+=50;
+					} else if (cell==09){
+						here.backContext.drawImage(here.door, xCur, yCur);
+						xCur+=50;
+					} else if (cell==40){
+						here.backContext.drawImage(here.stovetop, xCur, yCur);
+						xCur+=50;
+					} else if (cell==50){
+						here.backContext.drawImage(here.stovemiddle, xCur, yCur);
+						xCur+=50;
+					} else if (cell==60){
+						here.backContext.drawImage(here.stovebottom, xCur, yCur);
+						xCur+=50;
+					}else {
+						xCur+=50;
+					}
+					//if xCur reaches 500, draw next row of map array				
+					if (xCur == 500){
+						xCur=0;
+						yCur+=50;
+					}
+				})
+			})
+		}		
+
 		this.worker = new Image();
 		this.worker.src = "./assets/hero.png";
 		this.createWorker = function(){
@@ -75,7 +110,7 @@ var Context = (function(game){
 
 		this.door = new Image()
 		this.door.src = "./assets/door.png"
-
+		
 		this.stovetop = new Image();
 		this.stovetop.src =("./assets/stovetop.png");
 
@@ -83,50 +118,13 @@ var Context = (function(game){
 		this.stovemiddle.src = ("./assets/stovemiddle.png");
 
 		this.stovebottom = new Image();
-		this.stovebottom.src = ("./assets/stovebottom.png");		
+		this.stovebottom.src = ("./assets/stovebottom.png");	
 
 		this.table = new Image();
 		this.table.src = ("./assets/table.png");
 
-
 		this.brick = new Image();
 		this.brick.src = ("./assets/brick.png");
-		this.brick.onload = function(){
-			var xCur = 0;
-			var yCur = 0;
-			_.each(here.game.map, function(row){
-				_.each(row, function(cell){
-					//if cell has a 10, place a wall
-					if (cell==10){
-						here.backContext.drawImage(here.brick, xCur, yCur);
-						xCur+=50;
-					} else if (cell==20){
-						here.backContext.drawImage(here.table, xCur, yCur);
-						xCur+=50;
-					} else if (cell==09){
-						here.backContext.drawImage(here.door, xCur, yCur);
-						xCur+=50;
-					} else if (cell==40){
-						here.backContext.drawImage(here.stovetop, xCur, yCur);
-						xCur+=50;
-					} else if (cell==50){
-						here.backContext.drawImage(here.stovemiddle, xCur, yCur);
-						xCur+=50;
-					} else if (cell==60){
-						here.backContext.drawImage(here.stovebottom, xCur, yCur);
-						xCur+=50;
-					}else {
-						xCur+=50;
-					}
-					//if xCur reaches 500, draw next row of map array				
-					if (xCur == 500){
-						xCur=0;
-						yCur+=50;
-					}
-				})
-			})
-		}
-
 
 		this.money.onload=function(){
 			here.forContext.drawImage(here.money, 250, 200);
@@ -191,7 +189,6 @@ var Context = (function(game){
 		}
 
 		this.showDialogue = function(dialogue, x, y){
-			console.log(dialogue);
 			var x = x;
 			var y = y;
 			here.game.inDialogue = true;
@@ -199,7 +196,6 @@ var Context = (function(game){
 			here.textContext.font = "20px";
 			here.textContext.fillStyle = "#ffffff";
 			_.each(dialogue, function(value, key){
-				console.log(value);
 				here.textContext.fillText(value, x, y);
 				y+=20;
 			})
