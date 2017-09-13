@@ -1,4 +1,5 @@
-window.onload = function(){
+$(document).ready(function(){
+// window.onload = function(){
 	var thisGame = new Game();
 	var context = new Context(thisGame);
 	var text = new Text();
@@ -68,4 +69,4 @@ window.onload = function(){
 	context.start();
 	thisGame.fillConsumers();
 
-}
+})
